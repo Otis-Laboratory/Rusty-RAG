@@ -1,19 +1,23 @@
-extern crate anyhow;
-extern crate rust_bert;
+mod utils {
+    pub mod embed_text;
+}
 
-use rust_bert::{pipelines::sentence_embeddings::SentenceEmbeddingsBuilder, RustBertError};
+use rust_bert::pipelines::sentence_embeddings::SentenceEmbeddingsBuilder;
+use utils::embed_text::embed_text;
 
-fn main() -> anyhow::Result<()> {
-    let model =
-        SentenceEmbeddingsBuilder::local("models/bge-large-en-v1.5")
-            .with_device(tch::Device::cuda_if_available())
-            .create_model()?;
+fn main() {
+    let embedding_model = SentenceEmbeddingsBuilder::local("models/bge-large-en-v1.5")
+        .with_device(tch::Device::cuda_if_available())
+        .create_model();
 
-    // Define input
-    let sentences = ["this is an example sentence", "each sentence is converted"];
-
-    // Generate Embeddings
-    let embeddings = model.encode(&sentences)?;
-    println!("{embeddings:?}");
-    Ok(())
+    match embedding_model {
+        Ok(model) => {
+            let query: &str = "Sally sold sea shells at the sea shore.";
+            let embedding = embed_text(query, &model);
+            // println!("{:?}", embedding.unwrap());
+        }
+        Err(err) => {
+            eprintln!("Error creating embedding model: {}", err);
+        }
+    }
 }

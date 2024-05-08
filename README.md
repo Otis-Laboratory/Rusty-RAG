@@ -40,7 +40,7 @@ ls
 ## Converting PyTorch weights to Rust weights
 This was explained in the rust-bert repo, but it's kinda complicated so here's how I did it. Firstly, the main rust-bert library uses libtorch v2.1.0, whereas the rust-bert submodule (repo) uses v2.2.0 for converting weights. Not super efficient, I know, but it is what it is.
 
-1. Install [libtorch](https://pytorch.org/get-started/locally/) v2.1.0 and put the ``libtorch/`` folder in the ``lib/`` directory under a different name. I use ``libtorch-rustbert``.
+1. Install [libtorch](https://pytorch.org/get-started/locally/) v2.2.0 and put the ``libtorch/`` folder in the ``lib/`` directory under a different name. I use ``libtorch-rustbert``.
 
 2. Set your environment variables for the libtorch location and the libtorch libraries:
 ```shell
@@ -68,4 +68,4 @@ git -C models clone https://huggingface.co/sentence-transformers/all-MiniLM-L12-
 python lib/rust-bert/utils/convert_model.py "models/all-MiniLM-L12-v2/pytorch_model.bin"
 ```
 
-5. There should be a ``rust_model.ot`` file in the model directory. If not/there was an error, try to install a 2.2.0 version of PyTorch and try again, or view the error message.
+5. There should be a ``rust_model.ot`` file in the model directory upon completion. If not/there was an error, try to install a 2.2.0 version of PyTorch and try again, or view the error message.
