@@ -1,0 +1,5 @@
+/target
+lib/**/
+models/**/
+venv
+run.txt
